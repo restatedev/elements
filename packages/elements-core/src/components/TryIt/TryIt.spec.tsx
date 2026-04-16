@@ -1104,7 +1104,7 @@ describe('TryIt', () => {
 
         rerender(<TryItWithPersistence httpOperation={bearerSecurityOperation} />);
 
-        const tokenInput = screen.getByLabelText('Token');
+        const tokenInput = screen.getByLabelText('API Key');
         userEvent.type(tokenInput, 'Bearer 1234');
 
         rerender(<TryItWithPersistence httpOperation={basicSecurityOperation} />);
@@ -1364,7 +1364,7 @@ describe('TryIt', () => {
         const securitySchemes = screen.getByRole('menuitemcheckbox', { name: 'Bearer Auth (bearerKey)' });
         userEvent.click(securitySchemes);
 
-        const tokenInput = screen.getByLabelText('Token');
+        const tokenInput = screen.getByLabelText('API Key');
 
         userEvent.type(tokenInput, '0a1b2c');
 
