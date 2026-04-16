@@ -14,6 +14,7 @@
 - For TryIt request URLs, bracketed IPv6 hosts are safest when we validate with the platform `URL` parser and build the final request URL through `new URL(relativePath, normalizedServerUrl)` instead of raw string concatenation.
 - For function-valued web-component props, preserve property values set before `connectedCallback` and do not round-trip them through HTML attributes; otherwise custom callbacks like `tryItFetcher` get wiped out on mount.
 - True CSS isolation for `<elements-api />` needs Shadow DOM or an iframe; the current light-DOM custom element still pulls in global Mosaic CSS and theme variables.
+- A separate web-component-only build script is cleaner here than changing the main package build, because the React package still wants the old global stylesheet and legacy `web-components.min.js` path.
 
 ## Patterns That Don't Work
 - Assuming a fork-only fix is still needed without checking the current upstream code and tests.
