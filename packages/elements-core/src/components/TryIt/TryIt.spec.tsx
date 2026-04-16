@@ -47,6 +47,7 @@ describe('TryIt', () => {
   beforeEach(() => {
     fetchMock.resetMocks();
     localStorage.clear();
+    sessionStorage.clear();
   });
 
   it("Doesn't crash", () => {
@@ -1080,6 +1081,16 @@ describe('TryIt', () => {
 
         APIKeyField = screen.getByLabelText('API Key');
         expect(APIKeyField).toHaveValue('123');
+      });
+
+      it('stores auth values in session storage instead of local storage', () => {
+        render(<TryItWithPersistence httpOperation={putOperation} />);
+
+        const APIKeyField = screen.getByLabelText('API Key');
+        userEvent.type(APIKeyField, '123');
+
+        expect(sessionStorage.getItem('TryIt_securitySchemeValues')).toContain('"api_key":"123"');
+        expect(localStorage.getItem('TryIt_securitySchemeValues')).toBe(null);
       });
 
       it('invalidated unsupported security schemes between different operations', () => {
