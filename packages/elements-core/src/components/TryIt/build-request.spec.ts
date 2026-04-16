@@ -2,7 +2,7 @@ import { IHttpOperation } from '@stoplight/types';
 
 import { operation as minimalOperation } from '../../__fixtures__/operations/operation-minimal';
 import httpOperation from '../../__fixtures__/operations/operation-parameters';
-import { getAcceptedMimeTypes, getQueryParams } from './build-request';
+import { buildFetchRequest, buildHarRequest, getAcceptedMimeTypes, getQueryParams } from './build-request';
 
 describe('Build Request', () => {
   describe('Query params', () => {
@@ -212,6 +212,61 @@ describe('Build Request', () => {
   });
 
   describe('Build Request', () => {
+    describe('IPv6 urls', () => {
+      const chosenServer = {
+        id: 'ipv6-server',
+        url: 'http://[::1]:4010',
+      };
+
+      const operationWithIpv6BaseUrl: IHttpOperation = {
+        ...minimalOperation,
+        method: 'POST',
+        path: '/todos',
+      };
+
+      const operationWithIpv6EndpointUrl: IHttpOperation = {
+        ...minimalOperation,
+        method: 'POST',
+        path: 'http://[::1]:4010/todos',
+      };
+
+      it('builds fetch requests when the selected server uses an IPv6 host', async () => {
+        const [url] = await buildFetchRequest({
+          httpOperation: operationWithIpv6BaseUrl,
+          mediaTypeContent: undefined,
+          parameterValues: {},
+          serverVariableValues: {},
+          chosenServer,
+        });
+
+        expect(url).toBe('http://[::1]:4010/todos');
+      });
+
+      it('builds har requests when the selected server uses an IPv6 host', async () => {
+        const request = await buildHarRequest({
+          httpOperation: operationWithIpv6BaseUrl,
+          mediaTypeContent: undefined,
+          parameterValues: {},
+          serverVariableValues: {},
+          chosenServer,
+        });
+
+        expect(request.url).toBe('http://[::1]:4010/todos');
+      });
+
+      it('keeps absolute IPv6 endpoint urls valid when building fetch requests', async () => {
+        const [url] = await buildFetchRequest({
+          httpOperation: operationWithIpv6EndpointUrl,
+          mediaTypeContent: undefined,
+          parameterValues: {},
+          serverVariableValues: {},
+          chosenServer,
+        });
+
+        expect(url).toBe('http://[::1]:4010/todos');
+      });
+    });
+
     describe('shouldIncludeBody for DELETE', () => {
       it('Includes body for DELETE requests when bodyInput is provided', () => {
         const httpOperation = {

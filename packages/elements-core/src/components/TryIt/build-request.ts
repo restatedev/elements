@@ -132,6 +132,21 @@ export const getQueryParams = ({
   }, []);
 };
 
+function getUrlObject(serverUrl: string | null, expandedPath: string) {
+  try {
+    return new URL(expandedPath);
+  } catch {}
+
+  if (serverUrl === null) {
+    throw new TypeError(`Invalid URL: ${expandedPath}`);
+  }
+
+  const normalizedServerUrl = serverUrl.endsWith('/') ? serverUrl : `${serverUrl}/`;
+  const normalizedPath = expandedPath.replace(/^\/+/, '');
+
+  return new URL(normalizedPath, normalizedServerUrl);
+}
+
 export async function buildFetchRequest({
   httpOperation,
   mediaTypeContent,
@@ -158,9 +173,7 @@ export async function buildFetchRequest({
   const [queryParamsWithAuth, headersWithAuth] = runAuthRequestEhancements(auth, queryParams, rawHeaders);
 
   const expandedPath = uriExpand(httpOperation.path, parameterValues);
-
-  // urlObject is concatenated this way to avoid /user and /user/ endpoint edge cases
-  const urlObject = new URL(serverUrl + expandedPath);
+  const urlObject = getUrlObject(serverUrl, expandedPath);
   urlObject.search = new URLSearchParams(queryParamsWithAuth.map(nameAndValueObjectToPair)).toString();
 
   const body =
@@ -287,7 +300,7 @@ export async function buildHarRequest({
 
   const [queryParamsWithAuth, headerParamsWithAuth] = runAuthRequestEhancements(auth, queryParams, headerParams);
   const expandedPath = uriExpand(httpOperation.path, parameterValues);
-  const urlObject = new URL(serverUrl + expandedPath);
+  const urlObject = getUrlObject(serverUrl, expandedPath);
 
   let postData: HarRequest['postData'] = undefined;
   if (shouldIncludeBody && typeof bodyInput === 'string') {
