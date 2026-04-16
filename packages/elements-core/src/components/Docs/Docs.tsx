@@ -8,6 +8,7 @@ import { ElementsOptionsProvider } from '../../context/Options';
 import { useParsedData } from '../../hooks/useParsedData';
 import { ParsedNode } from '../../types';
 import { ReferenceResolver } from '../../utils/ref-resolving/ReferenceResolver';
+import type { TryItFetcher } from '../TryIt/TryIt';
 import { Article } from './Article';
 import { HttpOperation } from './HttpOperation';
 import { HttpService } from './HttpService';
@@ -77,6 +78,11 @@ interface BaseDocsProps {
    * @default false
    */
   tryItCorsProxy?: string;
+
+  /**
+   * Custom fetch implementation used by TryIt to send API requests.
+   */
+  tryItFetcher?: TryItFetcher;
 
   /**
    * Allows to customize the layout of Docs

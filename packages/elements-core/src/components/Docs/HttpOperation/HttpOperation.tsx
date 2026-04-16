@@ -33,7 +33,7 @@ import { Responses } from './Responses';
 export type HttpOperationProps = DocsComponentProps<IHttpEndpointOperation>;
 
 const HttpOperationComponent = React.memo<HttpOperationProps>(
-  ({ className, data: unresolvedData, layoutOptions, tryItCredentialsPolicy, tryItCorsProxy }) => {
+  ({ className, data: unresolvedData, layoutOptions, tryItCredentialsPolicy, tryItCorsProxy, tryItFetcher }) => {
     const { nodeHasChanged } = useOptionsCtx();
     const data = useResolvedObject(unresolvedData) as IHttpEndpointOperation;
     const { ref: layoutRef, isCompact } = useIsCompact(layoutOptions);
@@ -84,6 +84,7 @@ const HttpOperationComponent = React.memo<HttpOperationProps>(
         tryItCredentialsPolicy={tryItCredentialsPolicy}
         mockUrl={mocking.hideMocking ? undefined : mocking.mockUrl}
         corsProxy={tryItCorsProxy}
+        tryItFetcher={tryItFetcher}
       />
     );
 

@@ -67,6 +67,27 @@ describe('TryIt', () => {
     expect(headers.get('Content-Type')).toBe(null);
   });
 
+  it('uses a custom fetcher when provided', async () => {
+    const tryItFetcher = jest.fn().mockResolvedValue(
+      new Response('{}', {
+        status: 200,
+        statusText: 'OK',
+        headers: [],
+      }),
+    );
+
+    render(<TryItWithPersistence httpOperation={basicOperation} tryItFetcher={tryItFetcher} />);
+
+    clickSend();
+
+    await waitFor(() => expect(tryItFetcher).toHaveBeenCalled());
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(tryItFetcher.mock.calls[0][0]).toBe('https://todos.stoplight.io/todos');
+
+    const requestInit = tryItFetcher.mock.calls[0][1]!;
+    expect(requestInit.method).toMatch(/^get$/i);
+  });
+
   it('uses cors proxy url, if provided', async () => {
     render(<TryItWithPersistence httpOperation={basicOperation} corsProxy="https://some.proxy.com/" />);
 

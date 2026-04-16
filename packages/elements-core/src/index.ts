@@ -23,7 +23,13 @@ export {
   TableOfContentsNodeGroup,
 } from './components/TableOfContents/types';
 export { findFirstNode } from './components/TableOfContents/utils';
-export { TryIt, TryItProps, TryItWithRequestSamples, TryItWithRequestSamplesProps } from './components/TryIt';
+export {
+  TryIt,
+  TryItFetcher,
+  TryItProps,
+  TryItWithRequestSamples,
+  TryItWithRequestSamplesProps,
+} from './components/TryIt';
 export { HttpMethodColors, NodeTypeColors, NodeTypeIconDefs, NodeTypePrettyName } from './constants';
 export { MockingProvider } from './containers/MockingProvider';
 export { InlineRefResolverProvider } from './context/InlineRefResolver';

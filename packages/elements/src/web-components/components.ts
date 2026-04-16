@@ -20,6 +20,7 @@ export const ApiElement = createElementClass(API, {
   logo: { type: 'string' },
   tryItCredentialsPolicy: { type: 'string' },
   tryItCorsProxy: { type: 'string' },
+  tryItFetcher: { type: 'function' },
   maxRefDepth: { type: 'number' },
   renderExtensionAddon: { type: 'function' },
   outerRouter: { type: 'boolean' },

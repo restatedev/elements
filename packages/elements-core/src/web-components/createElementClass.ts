@@ -80,7 +80,9 @@ export const createElementClass = <P extends Record<string, any>>(
 
       for (const key in propDescriptors) {
         if (propDescriptors.hasOwnProperty(key)) {
-          this._props[key] = this._safeReadAttribute(key);
+          if (this._props[key] === undefined) {
+            this._props[key] = this._safeReadAttribute(key);
+          }
         }
       }
 
@@ -123,12 +125,16 @@ export const createElementClass = <P extends Record<string, any>>(
         return;
       }
 
+      const type = propDescriptors[attrName].type;
+      if (type === 'function') {
+        return;
+      }
+
       if (!newValue) {
         this.removeAttribute(attrName);
         return;
       }
 
-      const type = propDescriptors[attrName].type;
       this.setAttribute(attrName, stringifyValue(newValue));
 
       function stringifyValue(val: P[A]): string {
