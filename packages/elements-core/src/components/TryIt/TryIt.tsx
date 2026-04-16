@@ -35,6 +35,8 @@ import { ServersDropdown } from './Servers/ServersDropdown';
 import { ServerVariables } from './Servers/ServerVariables';
 import { useServerVariables } from './Servers/useServerVariables';
 
+export type TryItFetcher = typeof fetch;
+
 export interface TryItProps {
   httpOperation: IHttpEndpointOperation;
 
@@ -70,6 +72,7 @@ export interface TryItProps {
    */
   tryItCredentialsPolicy?: 'omit' | 'include' | 'same-origin';
   corsProxy?: string;
+  tryItFetcher?: TryItFetcher;
 }
 
 /**
@@ -99,6 +102,7 @@ export const TryIt: React.FC<TryItProps> = ({
   hideTryItPanel = false,
   tryItCredentialsPolicy,
   corsProxy,
+  tryItFetcher,
 }) => {
   TryIt.displayName = 'TryIt';
   const isDark = useThemeIsDark();
@@ -236,7 +240,7 @@ export const TryIt: React.FC<TryItProps> = ({
       });
       let response: Response | undefined;
       try {
-        response = await fetch(...request);
+        response = await (tryItFetcher ?? fetch)(...request);
       } catch (e: any) {
         setResponse({ error: new NetworkError(e.message) });
       }

@@ -2,6 +2,7 @@ import {
   InlineRefResolverProvider,
   NonIdealState,
   RoutingProps,
+  type TryItFetcher,
   useBundleRefsIntoDocument,
   useParsedValue,
   useResponsiveLayout,
@@ -113,6 +114,11 @@ export interface CommonAPIProps extends RoutingProps {
   tryItCorsProxy?: string;
 
   /**
+   * Custom fetch implementation used by TryIt to send API requests.
+   */
+  tryItFetcher?: TryItFetcher;
+
+  /**
    * The amount of references deep should be presented.
    * @default undefined
    */
@@ -145,6 +151,7 @@ export const APIImpl: React.FC<APIProps> = props => {
     hideExport,
     tryItCredentialsPolicy,
     tryItCorsProxy,
+    tryItFetcher,
     maxRefDepth,
     renderExtensionAddon,
     basePath,
@@ -219,6 +226,7 @@ export const APIImpl: React.FC<APIProps> = props => {
           exportProps={exportProps}
           tryItCredentialsPolicy={tryItCredentialsPolicy}
           tryItCorsProxy={tryItCorsProxy}
+          tryItFetcher={tryItFetcher}
           renderExtensionAddon={renderExtensionAddon}
           location={location}
         />
@@ -238,6 +246,7 @@ export const APIImpl: React.FC<APIProps> = props => {
           exportProps={exportProps}
           tryItCredentialsPolicy={tryItCredentialsPolicy}
           tryItCorsProxy={tryItCorsProxy}
+          tryItFetcher={tryItFetcher}
           renderExtensionAddon={renderExtensionAddon}
           basePath={basePath}
           outerRouter={outerRouter}
@@ -258,6 +267,7 @@ export const APIImpl: React.FC<APIProps> = props => {
           exportProps={exportProps}
           tryItCredentialsPolicy={tryItCredentialsPolicy}
           tryItCorsProxy={tryItCorsProxy}
+          tryItFetcher={tryItFetcher}
           renderExtensionAddon={renderExtensionAddon}
           compact={isResponsiveLayoutEnabled}
           basePath={basePath}

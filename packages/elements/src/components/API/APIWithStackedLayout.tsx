@@ -4,6 +4,7 @@ import {
   ExportButtonProps,
   HttpMethodColors,
   ParsedDocs,
+  type TryItFetcher,
   TryItWithRequestSamples,
 } from '@stoplight/elements-core';
 import { ExtensionAddonRenderer } from '@stoplight/elements-core/components/Docs';
@@ -36,6 +37,7 @@ type StackedLayoutProps = {
   exportProps?: ExportButtonProps;
   tryItCredentialsPolicy?: TryItCredentialsPolicy;
   tryItCorsProxy?: string;
+  tryItFetcher?: TryItFetcher;
   showPoweredByLink?: boolean;
   location: Location;
   renderExtensionAddon?: ExtensionAddonRenderer;
@@ -55,6 +57,7 @@ const TryItContext = React.createContext<{
   hideSamples?: boolean;
   tryItCredentialsPolicy?: TryItCredentialsPolicy;
   corsProxy?: string;
+  tryItFetcher?: TryItFetcher;
 }>({
   hideTryIt: false,
   hideTryItPanel: false,
@@ -87,6 +90,7 @@ export const APIWithStackedLayout: React.FC<StackedLayoutProps> = ({
   exportProps,
   tryItCredentialsPolicy,
   tryItCorsProxy,
+  tryItFetcher,
   renderExtensionAddon,
   showPoweredByLink = true,
   location,
@@ -97,7 +101,14 @@ export const APIWithStackedLayout: React.FC<StackedLayoutProps> = ({
   return (
     <LocationContext.Provider value={{ location }}>
       <TryItContext.Provider
-        value={{ hideTryItPanel, hideTryIt, hideSamples, tryItCredentialsPolicy, corsProxy: tryItCorsProxy }}
+        value={{
+          hideTryItPanel,
+          hideTryIt,
+          hideSamples,
+          tryItCredentialsPolicy,
+          corsProxy: tryItCorsProxy,
+          tryItFetcher,
+        }}
       >
         <Flex w="full" flexDirection="col" m="auto" className="sl-max-w-4xl">
           <Box w="full" borderB>
@@ -189,7 +200,8 @@ const Item = React.memo<{ item: OperationNode | WebhookNode }>(({ item }) => {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const color = HttpMethodColors[item.data.method as HttpMethod] || 'gray';
   const isDeprecated = !!item.data.deprecated;
-  const { hideTryIt, hideSamples, hideTryItPanel, tryItCredentialsPolicy, corsProxy } = React.useContext(TryItContext);
+  const { hideTryIt, hideSamples, hideTryItPanel, tryItCredentialsPolicy, corsProxy, tryItFetcher } =
+    React.useContext(TryItContext);
 
   const onClick = React.useCallback(() => setIsExpanded(!isExpanded), [isExpanded]);
 
@@ -257,6 +269,7 @@ const Item = React.memo<{ item: OperationNode | WebhookNode }>(({ item }) => {
                   node={item}
                   location={location}
                   layoutOptions={{ noHeading: true, hideTryItPanel: false, hideSamples, hideTryIt }}
+                  tryItFetcher={tryItFetcher}
                 />
               </TabPanel>
 
@@ -265,6 +278,7 @@ const Item = React.memo<{ item: OperationNode | WebhookNode }>(({ item }) => {
                   httpOperation={item.data}
                   tryItCredentialsPolicy={tryItCredentialsPolicy}
                   corsProxy={corsProxy}
+                  tryItFetcher={tryItFetcher}
                   hideSamples={hideSamples}
                   hideTryIt={hideTryIt}
                 />

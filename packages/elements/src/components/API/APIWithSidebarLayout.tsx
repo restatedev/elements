@@ -9,6 +9,7 @@ import {
   SidebarLayout,
   TableOfContents,
   TableOfContentsItem,
+  type TryItFetcher,
 } from '@stoplight/elements-core';
 import { ExtensionAddonRenderer } from '@stoplight/elements-core/components/Docs';
 import { Flex, Heading } from '@stoplight/mosaic';
@@ -33,6 +34,7 @@ type SidebarLayoutProps = {
   exportProps?: ExportButtonProps;
   tryItCredentialsPolicy?: 'omit' | 'include' | 'same-origin';
   tryItCorsProxy?: string;
+  tryItFetcher?: TryItFetcher;
   renderExtensionAddon?: ExtensionAddonRenderer;
   basePath?: string;
   outerRouter?: boolean;
@@ -52,6 +54,7 @@ export const APIWithSidebarLayout: React.FC<SidebarLayoutProps> = ({
   exportProps,
   tryItCredentialsPolicy,
   tryItCorsProxy,
+  tryItFetcher,
   renderExtensionAddon,
   basePath = '/',
   outerRouter = false,
@@ -110,6 +113,7 @@ export const APIWithSidebarLayout: React.FC<SidebarLayoutProps> = ({
             exportProps={exportProps}
             tryItCredentialsPolicy={tryItCredentialsPolicy}
             tryItCorsProxy={tryItCorsProxy}
+            tryItFetcher={tryItFetcher}
             renderExtensionAddon={renderExtensionAddon}
           />
         </ElementsOptionsProvider>

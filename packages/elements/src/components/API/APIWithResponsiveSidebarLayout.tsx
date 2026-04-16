@@ -4,6 +4,7 @@ import {
   ParsedDocs,
   resolveRelativeLink,
   ResponsiveSidebarLayout,
+  type TryItFetcher,
 } from '@stoplight/elements-core';
 import { ExtensionAddonRenderer } from '@stoplight/elements-core/components/Docs';
 import { NodeType } from '@stoplight/types';
@@ -27,6 +28,7 @@ type SidebarLayoutProps = {
   exportProps?: ExportButtonProps;
   tryItCredentialsPolicy?: 'omit' | 'include' | 'same-origin';
   tryItCorsProxy?: string;
+  tryItFetcher?: TryItFetcher;
   compact?: number | boolean;
   renderExtensionAddon?: ExtensionAddonRenderer;
   basePath?: string;
@@ -48,6 +50,7 @@ export const APIWithResponsiveSidebarLayout: React.FC<SidebarLayoutProps> = ({
   exportProps,
   tryItCredentialsPolicy,
   tryItCorsProxy,
+  tryItFetcher,
   renderExtensionAddon,
   basePath = '/',
   outerRouter = false,
@@ -116,6 +119,7 @@ export const APIWithResponsiveSidebarLayout: React.FC<SidebarLayoutProps> = ({
             exportProps={exportProps}
             tryItCredentialsPolicy={tryItCredentialsPolicy}
             tryItCorsProxy={tryItCorsProxy}
+            tryItFetcher={tryItFetcher}
             renderExtensionAddon={renderExtensionAddon}
           />
         </ElementsOptionsProvider>
