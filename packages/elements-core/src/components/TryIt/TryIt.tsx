@@ -327,7 +327,7 @@ export const TryIt: React.FC<TryItProps> = ({
             values={bodyParameterValues}
             onChangeValues={setBodyParameterValues}
           />
-        ) : mediaTypeContent ? (
+        ) : mediaTypeContent && textRequestBody !== undefined ? (
           <RequestBody
             examples={mediaTypeContent.examples ?? []}
             requestBody={textRequestBody}
