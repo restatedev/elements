@@ -4,6 +4,7 @@
   "description": "UI components for composing beautiful developer documentation.",
   "keywords": [],
   "sideEffects": [
+    "elements-web-components.min.js",
     "web-components.min.js",
     "src/web-components/**",
     "**/*.css"
@@ -20,6 +21,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.esm.js",
   "exports": {
+    "./elements-web-components.min.js": "./elements-web-components.min.js",
     "./elements-web-components.min.scoped.css": "./elements-web-components.min.scoped.css",
     "./styles.min.css": "./styles.min.css",
     "./web-components.min.js": "./web-components.min.js",
@@ -42,6 +44,7 @@
     "build.styles": "postcss src/styles.css -o dist/styles.min.css && yarn build.styles.scoped",
     "build.styles.scoped": "postcss src/styles.css -o dist/elements-web-components.min.scoped.css --env scoped-web-components",
     "build.webcomponents": "node --max-old-space-size=4096 ./../../node_modules/webpack/bin/webpack.js -c ./web-components.config.js",
+    "build.webcomponents.artifacts": "yarn build.webcomponents && yarn build.styles.scoped && node ./scripts/buildWebComponentArtifacts.js",
     "build.docs": "storybook build -c .storybook -o dist-storybook",
     "commit": "git-cz",
     "release": "sl-scripts release",
