@@ -1,6 +1,14 @@
-const DEFAULT_SCOPE_SELECTOR = ':where(elements-api)';
+const DEFAULT_SCOPE_SELECTOR = ':where(.stoplight)';
 const LEADING_GLOBAL_SELECTOR = /^(html|body)(?=$|[\s>+~.#[:])/;
 const LEADING_DATA_THEME_SELECTOR = /^\[data-theme=([^\]]+)\](.*)$/;
+
+function appendToScopeSelector(scopeSelector, suffix) {
+  if (scopeSelector.endsWith(')')) {
+    return `${scopeSelector.slice(0, -1)}${suffix})`;
+  }
+
+  return `${scopeSelector}${suffix}`;
+}
 
 function transformSelector(selector, scopeSelector = DEFAULT_SCOPE_SELECTOR) {
   const trimmedSelector = selector.trim();
@@ -20,7 +28,7 @@ function transformSelector(selector, scopeSelector = DEFAULT_SCOPE_SELECTOR) {
   const dataThemeMatch = trimmedSelector.match(LEADING_DATA_THEME_SELECTOR);
 
   if (dataThemeMatch) {
-    return `${scopeSelector.slice(0, -1)}[data-theme=${dataThemeMatch[1]}])${dataThemeMatch[2]}`;
+    return `${appendToScopeSelector(scopeSelector, `[data-theme=${dataThemeMatch[1]}]`)}${dataThemeMatch[2]}`;
   }
 
   return `${scopeSelector} ${trimmedSelector}`;
