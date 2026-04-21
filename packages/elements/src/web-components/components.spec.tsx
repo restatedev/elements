@@ -49,6 +49,18 @@ describe('ApiElement', () => {
     document.body.innerHTML = '';
   });
 
+  it('adds the stoplight host class for scoped stylesheet matching', () => {
+    const element = document.createElement(TEST_ELEMENT_NAME) as HTMLElement & {
+      apiDescriptionDocument: string;
+    };
+
+    element.apiDescriptionDocument = apiDescriptionDocument;
+
+    document.body.appendChild(element);
+
+    expect(element).toHaveClass('stoplight');
+  });
+
   it('uses tryItFetcher when provided as a web-component property', async () => {
     const tryItFetcher = jest.fn().mockResolvedValue(
       new Response('{}', {

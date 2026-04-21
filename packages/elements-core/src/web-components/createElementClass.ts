@@ -31,7 +31,10 @@ type Complete<T> = {
 export const createElementClass = <P extends Record<string, any>>(
   Component: React.ComponentType<P>,
   propDescriptors: PropDescriptorMap<P>,
+  options: { hostClassName?: string } = {},
 ): new () => HTMLElement => {
+  const { hostClassName } = options;
+
   return class extends HTMLElement {
     private _mountPoint: HTMLElement | undefined;
     private _props: Partial<P> = {};
@@ -74,6 +77,10 @@ export const createElementClass = <P extends Record<string, any>>(
     }
 
     connectedCallback() {
+      if (hostClassName) {
+        this.classList.add(hostClassName);
+      }
+
       this._mountPoint = document.createElement('div');
       this._mountPoint.style.height = '100%';
       this.appendChild(this._mountPoint);
