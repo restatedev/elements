@@ -22,6 +22,9 @@
 - Running Jest for this repo inside the sandbox can fail at report-writing time because `jest-junit` wants to create `test-results/`; use elevated filesystem access when you need a clean test run in this checkout.
 - Running `yarn` via Corepack in this repo can auto-add a root `packageManager` field to `package.json`; remove that unrelated diff after build commands if the repo is not meant to declare it yet.
 
+- To expose another component as a web component, wrap it in a small component with explicit props before passing it to `createElementClass`. The prop map must list every key of the component's props, so passing `JsonSchemaViewer` directly would mean listing all of its options.
+
 ## Domain Notes
+- 2026-10-16: rebased `restate` onto upstream main (63 commits, clean), backup branch `restate-pre-rebase-20261016`. Upstream's new example specs needed `?? ''`/`?.trim()` because our try-it change makes `generateExampleFromMediaTypeContent` return `undefined` without a media type. Added `<elements-json-schema-viewer>` for restate web-ui, which now vendors `dist/` artifacts instead of patching the npm package.
 - This repo is being used as the current upstream comparison target for an older fork in `/Users/nik/Developer/elements`.
 - `@stoplight/json-schema-sampler` defines `sample(schema, options, doc = schema)`; the third argument is the ref-resolution document, not an arbitrary context object.
