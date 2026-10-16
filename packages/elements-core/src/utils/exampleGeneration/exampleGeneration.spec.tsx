@@ -105,7 +105,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
     expect(example).not.toContain('Example cannot be created');
 
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).toHaveProperty('id');
     expect(parsed).toHaveProperty('name');
   });
@@ -123,7 +123,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(0 - 2 ** 31);
   });
 
@@ -140,7 +140,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(Number.MIN_SAFE_INTEGER);
   });
 
@@ -156,7 +156,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).toBeGreaterThanOrEqual(0);
   });
 
@@ -178,7 +178,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed.count).not.toBe(0 - 2 ** 31);
   });
 
@@ -195,7 +195,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(0 - 2 ** 128);
     expect(typeof parsed).toBe('number');
   });
@@ -213,7 +213,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(0 - Number.MAX_VALUE);
     expect(typeof parsed).toBe('number');
   });
@@ -231,7 +231,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(0 - 2 ** 31);
     expect(typeof parsed).toBe('number');
   });
@@ -253,7 +253,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(0 - 2 ** 31);
     expect(typeof parsed).toBe('number');
   });
@@ -275,7 +275,7 @@ describe('generateExampleFromMediaTypeContent', () => {
     };
 
     const example = generateExampleFromMediaTypeContent(mediaTypeContent as any, {});
-    const parsed = JSON.parse(example);
+    const parsed = JSON.parse(example ?? '');
     expect(parsed).not.toBe(0 - 2 ** 31);
     expect(typeof parsed).toBe('number');
   });
@@ -286,7 +286,7 @@ describe('generateExampleFromMediaTypeContent', () => {
       schema: { type: 'number', format: 'float' },
     };
 
-    expect(generateExampleFromMediaTypeContent(mediaTypeContent as any, {}).trim()).toBe('0.0');
+    expect(generateExampleFromMediaTypeContent(mediaTypeContent as any, {})?.trim()).toBe('0.0');
   });
 
   it('renders double field with no default as "0.0" not "0"', () => {
@@ -295,7 +295,7 @@ describe('generateExampleFromMediaTypeContent', () => {
       schema: { type: 'number', format: 'double' },
     };
 
-    expect(generateExampleFromMediaTypeContent(mediaTypeContent as any, {}).trim()).toBe('0.0');
+    expect(generateExampleFromMediaTypeContent(mediaTypeContent as any, {})?.trim()).toBe('0.0');
   });
 
   it('renders float property inside object as 0.0 in the output string', () => {
@@ -321,7 +321,7 @@ describe('generateExampleFromMediaTypeContent', () => {
       schema: { type: 'number' },
     };
 
-    expect(generateExampleFromMediaTypeContent(mediaTypeContent as any, {}).trim()).toBe('0');
+    expect(generateExampleFromMediaTypeContent(mediaTypeContent as any, {})?.trim()).toBe('0');
   });
 });
 
