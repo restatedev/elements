@@ -1,6 +1,7 @@
 import { createElementClass } from '@stoplight/elements-core';
 
 import { API } from '../index';
+import { JsonSchemaViewerElementContent } from './JsonSchemaViewer';
 
 export const ApiElement = createElementClass(
   API,
@@ -26,6 +27,19 @@ export const ApiElement = createElementClass(
     maxRefDepth: { type: 'number' },
     renderExtensionAddon: { type: 'function' },
     outerRouter: { type: 'boolean' },
+  },
+  { hostClassName: 'stoplight' },
+);
+
+export const JsonSchemaViewerElement = createElementClass(
+  JsonSchemaViewerElementContent,
+  {
+    schema: { type: 'object' },
+    defaultExpandedDepth: { type: 'number' },
+    maxRefDepth: { type: 'number' },
+    disableCrumbs: { type: 'boolean' },
+    renderRootTreeLines: { type: 'boolean' },
+    hideExamples: { type: 'boolean' },
   },
   { hostClassName: 'stoplight' },
 );
